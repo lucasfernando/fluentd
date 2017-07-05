@@ -278,7 +278,11 @@ class Fluent::ElasticsearchOutput < Fluent::BufferedOutput
         target_type = @type_name
       end
 
-      meta = {"_index" => target_index, "_type" => target_type, "pipeline" => pipeline}
+      meta = {"_index" => target_index, "_type" => target_type}
+
+      if @pipeline
+        meta["pipeline"] = @pipeline
+      end
 
       @meta_config_map ||= { 'id_key' => '_id', 'parent_key' => '_parent', 'routing_key' => '_routing' }
       @meta_config_map.each_pair do |config_name, meta_key|
