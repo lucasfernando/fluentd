@@ -54,6 +54,7 @@ class Fluent::ElasticsearchOutput < Fluent::BufferedOutput
   config_param :flatten_hashes_separator, :string, :default => "_"
   config_param :template_name, :string, :default => nil
   config_param :template_file, :string, :default => nil
+  config_param :pipeline, :string, :default => nil
 
   include Fluent::SetTagKeyMixin
   include Fluent::ElasticsearchIndexTemplate
@@ -277,7 +278,7 @@ class Fluent::ElasticsearchOutput < Fluent::BufferedOutput
         target_type = @type_name
       end
 
-      meta = {"_index" => target_index, "_type" => target_type}
+      meta = {"_index" => target_index, "_type" => target_type, "pipeline" => pipeline}
 
       @meta_config_map ||= { 'id_key' => '_id', 'parent_key' => '_parent', 'routing_key' => '_routing' }
       @meta_config_map.each_pair do |config_name, meta_key|
